@@ -37,15 +37,15 @@ export const berthDatabase: BerthConstraint[] = [
     notes: 'Suitable for full Supramax and Panamax.',
   },
   {
-    berthKey: 'COT Berth (Paradip)',
-    displayName: 'COT Berth',
+    berthKey: 'New Coal Import Berth (Paradip)',
+    displayName: 'New Coal Import Berth',
     port: 'Paradip',
     maxDraftM: 16.5,
     maxLoaM: 300,
     maxBeamM: 45,
     maxDwtApprox: 90000,
     waitingHoursTypical: 14,
-    notes: 'New Coal Import Terminal. Suitable for Panamax. Capesize excluded on beam/draft.',
+    notes: 'Prototype planning limits for a Paradip coal-import berth. Suitable for Panamax; verify operational limits before production use.',
   },
   {
     berthKey: 'Dhamra – Coal Berth',

@@ -206,7 +206,7 @@ function evaluateVessel(
 
 // ─── Booking decision ─────────────────────────────────────────────────────────
 
-export type BookingDecision = 'BOOK NOW' | 'WAIT' | 'MONITOR';
+export type BookingDecision = 'BOOK NOW' | 'WAIT' | 'MONITOR' | 'AVOID';
 
 interface BookingAnalysis {
   decision: BookingDecision;
@@ -487,6 +487,7 @@ export interface EvaluationResult {
 
   // Calculated or mock flag
   isCalculated: boolean;
+  engineMode?: 'backend' | 'local-fallback';
 }
 
 // ─── Evaluation entry point ───────────────────────────────────────────────────
@@ -597,6 +598,7 @@ export function evaluateRequirement(form: NewRequirementForm): EvaluationResult 
     contract,
     basisSections,
     isCalculated: true,
+    engineMode: 'local-fallback',
   };
 }
 

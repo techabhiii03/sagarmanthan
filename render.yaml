@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: sagarmanthan-sih26006
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    autoDeploy: true

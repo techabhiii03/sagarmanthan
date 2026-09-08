@@ -249,7 +249,7 @@ export const dischargePortOptions = [
 export const preferredBerthOptions = [
   'EQ-I (Paradip)',
   'EQ-II (Paradip)',
-  'COT Berth (Paradip)',
+  'New Coal Import Berth (Paradip)',
   'Dhamra – Coal Berth',
   'Vizag – Coal Berth 1',
   'Any – as available',

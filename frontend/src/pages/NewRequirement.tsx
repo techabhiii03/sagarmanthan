@@ -16,7 +16,7 @@ import {
   planningPeriodOptions,
 } from '../data/mockData';
 import type { NewRequirementForm } from '../types';
-import { evaluateRequirement } from '../services/evaluationEngine';
+import { evaluateRequirementWithBackend } from '../services/backendEvaluation';
 
 const DRAFT_KEY = 'sagarmanthan:draft';
 const CURRENT_EVALUATION_KEY = 'sagarmanthan:current-evaluation';
@@ -42,6 +42,8 @@ export default function NewRequirement() {
   const [form, setForm] = useState<NewRequirementForm>(defaultForm);
   const [errors, setErrors] = useState<Partial<Record<keyof NewRequirementForm, string>>>({});
   const [savedDraft, setSavedDraft] = useState(false);
+  const [evaluating, setEvaluating] = useState(false);
+  const [evaluationStage, setEvaluationStage] = useState('');
 
   const portOptions = form.loadingCountry
     ? loadingPortOptions[form.loadingCountry] ?? []
@@ -89,12 +91,23 @@ export default function NewRequirement() {
     return Object.keys(newErrors).length === 0;
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (validate()) {
-      const result = evaluateRequirement(form);
-      sessionStorage.setItem(CURRENT_EVALUATION_KEY, JSON.stringify(result));
-      navigate(`/recommendation/${result.reference}`);
+      setEvaluating(true);
+      setEvaluationStage('Checking vessel and berth constraints…');
+      const stageTimer = window.setTimeout(
+        () => setEvaluationStage('Comparing voyage cost and market position…'),
+        450,
+      );
+      try {
+        const result = await evaluateRequirementWithBackend(form);
+        sessionStorage.setItem(CURRENT_EVALUATION_KEY, JSON.stringify(result));
+        navigate(`/recommendation/${result.reference}`);
+      } finally {
+        window.clearTimeout(stageTimer);
+        setEvaluating(false);
+      }
     }
   }
 
@@ -302,8 +315,8 @@ export default function NewRequirement() {
 
         {/* Actions */}
         <div className="flex flex-wrap items-center gap-3">
-          <button type="submit" className={btnPrimary}>
-            Evaluate Requirement
+          <button type="submit" className={btnPrimary} disabled={evaluating}>
+            {evaluating ? 'Evaluating…' : 'Evaluate Requirement'}
           </button>
           <button type="button" className={btnSecondary} onClick={handleSaveDraft}>
             Save as Draft
@@ -320,6 +333,7 @@ export default function NewRequirement() {
               Draft saved successfully.
             </span>
           )}
+          {evaluating && <span className="text-xs text-text-sub">{evaluationStage}</span>}
         </div>
       </form>
     </div>

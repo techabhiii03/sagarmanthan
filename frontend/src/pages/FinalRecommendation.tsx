@@ -8,7 +8,7 @@ import { evaluateRequirement, type EvaluationResult } from '../services/evaluati
 import { getCurrentEvaluation, saveEvaluation } from '../services/storage';
 import type { NewRequirementForm } from '../types';
 
-const demoForm: NewRequirementForm = { material:'Coking Coal',quantity:'80000',tolerance:'5',consignments:'6',loadingCountry:'Australia',loadingPort:'Newcastle',dischargePort:'Paradip',preferredBerth:'COT Berth (Paradip)',requiredArrivalDate:'2026-11-15',planningPeriod:'H2 2026 (Jul – Dec)',monthlyRequirement:'80000',contractPreference:'Mixed arrangement',riskPreference:'Medium – balance cost and flexibility' };
+const demoForm: NewRequirementForm = { material:'Coking Coal',quantity:'80000',tolerance:'5',consignments:'6',loadingCountry:'Australia',loadingPort:'Newcastle',dischargePort:'Paradip',preferredBerth:'New Coal Import Berth (Paradip)',requiredArrivalDate:'2026-11-15',planningPeriod:'H2 2026 (Jul – Dec)',monthlyRequirement:'80000',contractPreference:'Mixed arrangement',riskPreference:'Medium – balance cost and flexibility' };
 
 function Summary({ result }: { result: EvaluationResult }) {
   const fields = [['Reference',result.reference],['Material',result.material],['Quantity',result.quantity],['Route',result.route],['Required arrival',result.requiredArrival],['Assessment date',result.assessmentDate]];
